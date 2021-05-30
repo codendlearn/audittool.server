@@ -1,8 +1,0 @@
-obj
-vscode
-bin
-appsettings.Development.json
-
-obj/*
-bin/*
-.vscode

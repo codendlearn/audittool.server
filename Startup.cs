@@ -57,13 +57,16 @@ namespace AuditTool.Server
         }
         private static async Task<CosmosClient> InitializeCosmosClientInstanceAsync(IConfigurationSection configurationSection)
         {
-            string databaseName = configurationSection.GetSection("DatabaseName").Value;
-            string containerName = configurationSection.GetSection("ContainerName").Value;
+            string databaseName = configurationSection.GetSection("Database").Value;
+            string containerName = configurationSection.GetSection("EngagementContainerName").Value;
+            string userContainerName = configurationSection.GetSection("UserContainerName").Value;
             string account = configurationSection.GetSection("Account").Value;
             string key = configurationSection.GetSection("Key").Value;
             var client = new CosmosClient(account, key);
+
             var database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
-            await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
+            await database.Database.CreateContainerIfNotExistsAsync(containerName, "/category");
+            await database.Database.CreateContainerIfNotExistsAsync(userContainerName, "/id");
 
             return client;
         }
